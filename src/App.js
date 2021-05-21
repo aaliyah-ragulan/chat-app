@@ -2,6 +2,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React, { useState, useEffect } from 'react'
+// import Button from './Button.js'
+import Channel from './Channel.js'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyC40JGNqi_JtZ8vWEUDCGFm_TELTRR9KsQ',
@@ -13,6 +15,9 @@ firebase.initializeApp({
 })
 
 function App() {
+
+  const { user, initializing } = useAuthState(firebase.auth());
+
   const signInWithGoogle = async () => {
     //calling google authorization
     const provider = new firebase.auth.GoogleAuthProvider()
@@ -34,11 +39,43 @@ function App() {
     }
   }
 
+  if (user) return <Channel user={user} />;
+
   return (
-    <div>
-      <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+    <div >
+      <div >
+        <h2>
+          React FireChat
+        </h2>
+        <p >
+          The easiest way to chat with people all around the world.
+        </p>
+        <button onClick={signInWithGoogle}>
+          Sign in with Google
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+
+
+return (
+  <div>
+    <header >
+      <a href="https://alterclass.io/courses/react">
+        <img src={brandLogo} />
+      </a>
+      <div>
+        {user ? (
+          <button onClick={signOut} > Sign out </button>
+        ) : null}
+        
+      </div>
+    </header>
+    <main>
+      {renderContent()}
+    </main>
+  </div>
+);
+};
 
 export default App
