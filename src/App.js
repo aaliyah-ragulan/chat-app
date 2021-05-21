@@ -13,7 +13,26 @@ firebase.initializeApp({
 })
 
 function App() {
-  const signInWithGoogle = async () => {}
+  const signInWithGoogle = async () => {
+    //calling google authorization
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    firebase.auth().useDeviceLanguage();
+    //handling the google sign in
+    try {
+      await firebase.auth().signInWithPopup(provider);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  //handling the google sign out 
+  const signOut = async () => {
+    try {
+      await firebase.auth().signOut();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
